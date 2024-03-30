@@ -7,6 +7,10 @@ import ContactUsPage from "./pages/ContactPage";
 import ShopPage from "./pages/ShopPage";
 import DeliveryPage from "./pages/DeliveryPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import BlogPage from "./pages/BlogPage";
+import ProductPage from "./pages/ProductPage";
+
+
 import {
   // Switch,
   Route,
@@ -22,9 +26,11 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about-as" element={<AboutUsPage />} />
-          <Route path="/contact" element={<ContactUsPage />} />
+          <Route path="/contacts" element={<ContactUsPage />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/product1" element={<ProductPage />} />
           <Route path="/delivery" element={<DeliveryPage />} />
+          <Route path="/blog" element={<BlogPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

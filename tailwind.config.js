@@ -8,7 +8,13 @@ module.exports = {
       backgroundColor: {
         'regal-blue': '#243c5a',
       },
+      fontFamily: {
+        sans: ['Montserrat','sans-serif'], 
+      },
     }
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
 }

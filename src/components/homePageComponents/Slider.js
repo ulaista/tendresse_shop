@@ -22,9 +22,9 @@ function Slider() {
       infinite: true,
       arrows: true,
       prevArrow:
-        "<button type='button' class='heroSliderArrow prevArrow'></button>",
+        "<button type='button' class='heroSliderArrow'>‹</button>",
       nextArrow:
-        "<button type='button' class='heroSliderArrow nextArrow'></button>",
+        "<button type='button' class='heroSliderArrow nextArrow'>›</button>",
       // dots: true,
       autoplaySpeed: 5000,
       pauseOnFocus: false,

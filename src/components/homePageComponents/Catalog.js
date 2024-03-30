@@ -3,14 +3,22 @@ import foto from "../../img/text-img-1.jpg"; // Убедитесь, что пу�
 
 const CatalogHomePage = () => {
   return (
-    <div className="flex p-20 text-black font-sans">
+    <div className="grid grid-cols-1 md:grid-cols-2 p-20 text-black font-sans">
+      {/* Right Side - Image */}
+      <div className="h-auto">
+        <img 
+          src={foto} 
+          alt="Lingerie" 
+          className="object-cover w-full h-auto" 
+        />
+      </div>
       {/* Left Side - Content */}
-      <div className="w-1/2 p-20 space-y-6">
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-4xl">
+      <div className="p-20 space-y-6">
+        <h1 className="text-xl sm:text-lg md:text-xl font-extrabold tracking-tight lg:text-2xl">
           ВАШ ОСОБЫЙ МИГ<br/>
           СТИЛЯ И СОБЛАЗНА!
         </h1>
-        <p className="text-gray-500">
+        <p className="text-gray-500 text-xs md:text-sm lg:text-base">
           Наше белье выражает вашу уникальную личность и стиль. Вы сможете выбрать среди разнообразия
           вариантов – от романтической до смелой, от классической до модной. Наша коллекция
           удовлетворит даже самых взыскательных клиентов и позволит вам чувствовать себя уверенно и
@@ -20,15 +28,8 @@ const CatalogHomePage = () => {
           В КАТАЛОГ
         </button>
       </div>
-      {/* Right Side - Image */}
-      <div className="w-1/3 h-1/2">
-        <img 
-          src={foto} 
-          alt="Lingerie" 
-          className="object-cover w-full h-full" 
-        />
-      </div>
     </div>
+    
   );
 };
 
