@@ -6,7 +6,6 @@ import "../../plugins/slick/slick.css";
 import "../../plugins/animate/animate.css";
 import "../../plugins/slick/slick-theme.css";
 import "../../scss/templates/_slider.scss";
-import "./Slider"
 
 import $ from "../../plugins/jquery/dist/jquery.js";
 import "../../plugins/slick/slick.min.js";
@@ -22,7 +21,7 @@ function Slider() {
       infinite: true,
       arrows: true,
       prevArrow:
-        "<button type='button' class='heroSliderArrow'>‹</button>",
+        "<button type='button' class='heroSliderArrow prevArrow'>‹</button>",
       nextArrow:
         "<button type='button' class='heroSliderArrow nextArrow'>›</button>",
       // dots: true,

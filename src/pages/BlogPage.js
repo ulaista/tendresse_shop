@@ -10,21 +10,24 @@ function BlogPage() {
       date: "30.01.2020",
       title: "Соблазнительная Нежность: Топ-5 Луков для Уверенности...",
       description: "Не пора ли отдать должное внимание...",
-      imageUrl: foto_1
+      imageUrl: foto_1,
+      src: '/blog1'
     },
     {
       id: 1,
       date: "30.01.2020",
       title: "Соблазнительная Нежность: Топ-5 Луков для Уверенности...",
       description: "Не пора ли отдать должное внимание...",
-      imageUrl: foto_1
+      imageUrl: foto_1,
+      src: '/blog1'
     },
     {
       id: 1,
       date: "30.01.2020",
       title: "Соблазнительная Нежность: Топ-5 Луков для Уверенности...",
       description: "Не пора ли отдать должное внимание...",
-      imageUrl: foto_1
+      imageUrl: foto_1,
+      src: '/blog1'
     },
   ];
     
@@ -41,7 +44,7 @@ function BlogPage() {
   };
   return (
     <div>
-      <div className="py-44">
+      <div className="py-40">
         <PageHeader/>
         <div className="max-w-screen-xl mx-auto pl-8 text-3xl py-7 font-medium">Блог</div>
         <ArticleGrid articles={articles} />

@@ -4,7 +4,7 @@ import star from "../../img/icon-disable.svg";
 const ReviewSelf = () => {
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
+    rating: "",
     email: "",
     message: "",
   });

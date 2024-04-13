@@ -12,8 +12,8 @@ const WeddingCollection = () => {
       {/* Контейнер для текста с флексбоксом и выравниванием */}
       <div className="pt-24 flex-1 h-1/2 md:h-full flex flex-col justify-center items-start p-8">
         <span className="text-xs sm:text-sm uppercase tracking-widest text-gray-500 mb-2">Будь особенной</span>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">СВАДЕБНАЯ<br/> КОЛЛЕКЦИЯ</h2>
-        <button className="bg-orange-900 text-white text-xs sm:text-sm px-4 sm:px-6 py-2 rounded shadow-md hover:bg-brown-600 transition-colors">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-medium mb-4">СВАДЕБНАЯ<br/> КОЛЛЕКЦИЯ</h2>
+        <button className="bg-[#6D5B4F] hover:bg-orange-50 border border-[#6D5B4F] hover:text-[#6D5B4F] text-white sm:px-6 rounded-lg py-3 px-3 hover:bg-brown-600 transition-colors">
           В каталог
         </button>
       </div>

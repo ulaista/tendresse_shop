@@ -13,21 +13,24 @@ function HomePage() {
       date: "30.01.2020",
       title: "Соблазнительная Нежность: Топ-5 Луков для Уверенности...",
       description: "Не пора ли отдать должное внимание...",
-      imageUrl: foto_1
+      imageUrl: foto_1,
+      src: '/blog1'
     },
     {
       id: 1,
       date: "30.01.2020",
       title: "Соблазнительная Нежность: Топ-5 Луков для Уверенности...",
       description: "Не пора ли отдать должное внимание...",
-      imageUrl: foto_1
+      imageUrl: foto_1,
+      src: '/blog1'
     },
     {
       id: 1,
       date: "30.01.2020",
       title: "Соблазнительная Нежность: Топ-5 Луков для Уверенности...",
       description: "Не пора ли отдать должное внимание...",
-      imageUrl: foto_1
+      imageUrl: foto_1,
+      src: '/blog1'
     },
   ];
     
@@ -44,12 +47,15 @@ function HomePage() {
   };
   
   return (
-    <div>
+    <div className="scrollbar-thumb-orange-800">
       <Slider />
       <CatalogHomePage/>
       <ShopCategories/>
       <WeddingCollection/>
       <ProductCatalog/>
+      <div className='flex justify-center pb-8'>
+          <a className='rounded-lg py-3 px-3 text-white hover:text-[#6D5B4F] bg-[#6D5B4F] hover:bg-[#F6F2E7] border border-[#6D5B4F]'>В КАТАЛОГ</a>
+      </div>
       <ArticleGrid articles={articles} />
     </div>
   );

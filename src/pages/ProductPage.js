@@ -1,11 +1,11 @@
 import React from "react";
 import PageHeader from "../components/ProductPageComponents/PageHeader";
-import foto_1 from '../img/7.webp'
 import ReviewSelf from "../components/ProductPageComponents/Review";
 import ProductList from "../components/ProductPageComponents/Product";
 import ProductDetails from "../components/ProductPageComponents/Descrip";
 
 
+import foto_1 from '../img/7.webp'
 const ProductPage = () => {
     const productExample = {
         name: 'Пижама',

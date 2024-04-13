@@ -82,11 +82,11 @@ const ProductCard = ({ product }) => {
             </button>
           ))}
         </div>
-        <div className="flex space-x-2 mt-2">
+        <div className="flex-col space-x-2 mt-2">
           {product.sizes.map((size) => (
             <button
               key={size}
-              className={`border px-3 py-1 rounded-md text-sm font-semibold 
+              className={`border px-3 py-1 my-1 rounded-md text-sm font-semibold 
                           ${size === selectedSize ? 'bg-[#6D5B4F] text-white' : 'bg-white text-gray-700'} 
                           hover:bg-[#6D5B4F] hover:text-white`}
               onClick={() => setSelectedSize(size)}

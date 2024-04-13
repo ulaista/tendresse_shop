@@ -4,7 +4,7 @@ import ContactPage from "../components/contactPageComponents/Content";
 
 function ContactUsPage() {
   return (
-    <div className="py-44">
+    <div className="py-40">
       <PageHeader/>
       <ContactPage/>
     </div>

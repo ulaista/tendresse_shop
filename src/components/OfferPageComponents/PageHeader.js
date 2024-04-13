@@ -2,7 +2,7 @@ import React from "react";
 
 function PageHeader() {
   return (
-    <div className="-m-1 bg-white">
+    <div className="bg-white">
       <div className="container mx-auto px-4 flex justify-start">
         <div className="flex flex-wrap">
           <div className="w-full">
@@ -12,15 +12,11 @@ function PageHeader() {
                   <a href="/" className="">Главная</a>
                 </li>
                 <li><span className="mx-2">›</span></li>
-                <li className="">
-                    <a href="/" className="">Магазин</a>
-                </li>
-                <li><span className="mx-2">›</span></li>
                 <li>
-                  <a href="/" className="">Трусики</a>
+                  <a href="/forcustomer" className="">Покупателям</a>
                 </li>
                 <li><span className="mx-2">›</span></li>
-                <li className="">Пижама</li>
+                <li className="">Публичная офёрта</li>
               </ol>
             </div>
           </div>

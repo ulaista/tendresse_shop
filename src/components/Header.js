@@ -6,8 +6,10 @@ import { SearchIcon } from "@heroicons/react/outline";
 // Предполагаем, что эти иконки 
 const Header = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const [dropdownsOpen, setDropdownsOpen] = useState({
+    forcustomer: false,
+    novelties: false,
+  });
 
   // Эффект для добавления стилей к body, чтобы страница сдвигалась вправо, когда меню открыто
   useEffect(() => {
@@ -26,24 +28,24 @@ const Header = () => {
     };
   }, [isPanelOpen]);
 
-  const handleMouseEnter = () => {
-    setIsDropdownOpen(true);
+  const handleMouseEnter = (menu) => {
+    setDropdownsOpen({ ...dropdownsOpen, [menu]: true });
   };
 
-  const handleMouseLeave = () => {
-    setIsDropdownOpen(false);
+  const handleMouseLeave = (menu) => {
+    setDropdownsOpen({ ...dropdownsOpen, [menu]: false });
   };
 
   return (
     <div>
       <nav className="absolute z-10 w-full text-[#6D5B4F] backdrop-opacity-10 backdrop-invert bg-white/60">
         <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="border-b border-gray-800 flex justify-center md:grid grid-cols-7 items-center py-10 gap-1">
-            <div className="flex items-center md:hidden">
+          <div className="border-b border-gray-800 flex justify-center lg:grid grid-cols-7 items-center py-8 gap-1">
+            <div className="flex-none items-center lg:hidden">
               <button
                 onClick={() => setIsPanelOpen(!isPanelOpen)}
                 type="button"
-                className="inline-flex items-center justify-center p-2 rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
+                className="inline-flex items-center justify-center p-2 rounded-md hover:text-gray-500 focus:outline-none focus:text-gray-500"
                 aria-controls="mobile-menu"
                 aria-expanded="false"
               >
@@ -86,75 +88,80 @@ const Header = () => {
             </div>
             {/* Левая часть для меню */}
             <div
-              className="flex justify-start items-center ml-12 col-span-3"
-              onMouseLeave={handleMouseLeave}
+              className="flex justify-start items-center ml-12 col-span-3 text-xs xl:text-sm"
             >
                {/* Ссылки меню для десктоп версии */}
                <Link
                 to="/"
-                className="hidden md:block  px-3 py-2 rounded-md text-sm "
+                className="hidden lg:block  px-3 py-2 rounded-md"
               >
                 Главная
               </Link>
               <Link
                 to="/shop"
-                className="hidden md:block  px-3 py-2 rounded-md text-sm "
+                className="hidden lg:block  px-3 py-2 rounded-md"
               >
                 Магазин
               </Link>
-              <div onMouseEnter={handleMouseEnter} className="relative">
-                <a
-                  href="#"
-                  className="hidden md:block px-3 py-2 rounded-md text-sm"
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter("forcustomer")}
+                onMouseLeave={() => handleMouseLeave("forcustomer")}
+              >
+                <Link
+                  to="/forcustomer"
+                  className="hidden lg:block px-3 py-2 rounded-md" 
                 >
                   Покупателям
-                </a>
-                {isDropdownOpen && (
-                  <div className="absolute left-0 bg-white shadow-lg rounded-md p-2">
+                </Link>
+                {dropdownsOpen.forcustomer && (
+                  <div 
+                    className="absolute left-0  shadow-lg bg-[#F6F2E7]"
+                  >
                     {/* Dropdown items */}
-                    <Link to="/about" className="block px-3 py-2 rounded-md text-sm">
+                    <Link to="/about" className="block px-3 py-2 hover:bg-white text-sm">
                       О нас
                     </Link>
-                    <Link to="/delivery" className="block px-3 py-2 rounded-md text-sm">
+                    <Link to="/delivery" className="block px-3 py-2 hover:bg-white text-sm">
                       Доставка и оплата
                     </Link>
-                    <a to="#" className="block px-3 py-2 rounded-md text-sm">
+                    <Link to="/publicoffer" className="block px-3 py-2 hover:bg-white text-sm">
                       Публичная оферта
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
               <Link
                 to="/blog"
-                className="hidden md:block  px-3 py-2 rounded-md text-sm "
+                className="hidden lg:block  px-3 py-2 rounded-md"
               >
                 Блог
               </Link>
               <Link
                 to="/contacts"
-                className="hidden md:block  px-3 py-2 rounded-md text-sm "
+                className="hidden lg:block  px-3 py-2 rounded-md"
               >
                 Контакты
               </Link>
             </div>
             {/* Центральный блок для логотипа */}
-             <div className="flex self-start col-span-2">
+             <div className="grow flex justify-center lg:block col-span-2">
                <Link
-               to="/sdgsad"
+               to="/"
               >       
               <img
                 src="https://demox-000-18.site-x.pro/Media/demox-000-18/icons/logo/demox_18_logo.svg"
                 alt="Логотип"
-                className="w-40 h-auto"
+                className="w-40 h-auto justify-center"
               />
               </Link>
             </div>
             {/* Правая часть для элементов управления пользователя */}
-             <div className="flex justify-end items-center space-x-4 mr-12 col-span-2">
-                <div className="relative hidden md:block">
-                    <SearchIcon className="h-5 w-5 text-gray-900 absolute right-3 top-1/2 transform -translate-y-1/2" />
+             <div className="flex justify-end items-center space-x-4 mr-8 col-span-2">
+                <div className="relative">
+                    <SearchIcon className="hidden lg:block h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2" />
                     <input
-                      className="pl-3 pr-4 py-2 border-b border-gray-800 backdrop-opacity-10 backdrop-invert bg-white/50"
+                      className="hidden lg:block w-36 pl-3 pr-4 py-2 border-b border-gray-800 backdrop-opacity-10 backdrop-invert bg-white/50"
                       placeholder="Поиск"
                     />
                 </div>
@@ -179,7 +186,7 @@ const Header = () => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6 hidden lg:block"
               >
                 <path
                   stroke-linecap="round"
@@ -187,6 +194,7 @@ const Header = () => {
                   d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
                 />
               </svg>
+              <SearchIcon className="block lg:hidden h-5 w-5" />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -216,18 +224,25 @@ const Header = () => {
             >
               БЮСТГАЛТЕРЫ
             </a>
-            <a
-              href="#"
-              className=" hover:text-gray-700 px-3 py-2 rounded-md text-sm "
+            <div 
+              onMouseEnter={() => handleMouseEnter("novelties")}
+              onMouseLeave={() => handleMouseLeave("novelties")} 
+              className="relative pt-1"
             >
-              НОВИНКИ
-            </a>
-            <a
-              href="#"
-              className=" hover:text-gray-700 px-3 py-2 rounded-md text-sm "
-            >
-              Свадебная коллекция
-            </a>
+                <a
+                  href="#"
+                  className="hover:text-gray-700 px-3 py-2 rounded-md text-sm"
+                >
+                  НОВИНКИ
+                </a>
+                {dropdownsOpen.novelties && (
+                  <div className="absolute left-0 bg-[#F6F2E7] mt-1 shadow-lg p-2 min-w-max">
+                    <a href="#" className="block px-3 py-2 text-sm min-w-max">
+                      Свадебная коллекция
+                    </a>
+                  </div>
+                )}
+            </div>
             <a
               href="#"
               className=" hover:text-gray-700 px-3 py-2 rounded-md text-sm "
@@ -252,46 +267,130 @@ const Header = () => {
       {/* Мобильное меню */}
       <Transition
         show={isPanelOpen}
-        enter="transition ease-out duration-600 transform"
+        enter="transition ease-out duration-1200 transform"
         enterFrom="-translate-x-full"
         enterTo="translate-x-0"
-        leave="transition ease-in duration-600 transform"
+        leave="transition ease-in duration-1200 transform"
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >
         {(ref) => (
-          <div className="md:hidden" id="mobile-menu">
+          <div className="lg:hidden" id="mobile-menu">
             <div
               ref={ref}
-              className="bg-white p-2 fixed inset-y-0 left-0 max-w-sm w-full "
+              className="bg-white fixed inset-y-0 left-0 "
               aria-labelledby="slide-over-title"
             >
-              <div className="pt-5 pb-4 -ml-40 space-y-1">
+              <div className=" pb-4 -ml-64 space-y-1 max-h-screen flex flex-col overflow-y-auto">
                 {/* Ссылки для мобильного меню */}
-                <a
-                   href="#"
-                  className=" block px-3 py-2 rounded-md text-base "
+                <div className=" px-3 py-5  text-xl bg-[#F6F2E7]">
+                  Меню
+                </div>
+                <Link
+                to="/"
+                className=" px-4 py-2 text-base"
                 >
+                  Главная
+                </Link>
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  Магазин
+                </Link>
+                <Link
+                to="/"
+                className=" px-4 py-2 text-base"
+                >
+                  Покупателям
+                </Link>
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  Блог
+                </Link>
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  Контакты
+                </Link>            
+                <div className=" px-3 py-5  text-xl bg-[#F6F2E7]">
                   Каталог
-                </a>
-                <a
-                  href="#"
-                  className=" block px-3 py-2 rounded-md text-base "
+                </div>
+                <Link
+                to="/"
+                className=" px-4 py-2 text-base"
                 >
                   Трусики
-                </a>              
-                <a
-                   href="#"
-                  className=" block px-3 py-2 rounded-md text-base "
+                </Link>
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
                 >
-                  Каталог
-                </a>
-                <a
-                  href="#"
-                  className=" block px-3 py-2 rounded-md text-base "
+                  Бюсгалтеры
+                </Link>
+                <Link
+                to="/"
+                className=" px-4 py-2 text-base"
                 >
-                  Трусики
-                </a>              
+                  Новинки
+                </Link>
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  Боди
+                </Link>
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  Пижами
+                </Link>            
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  Скидки
+                </Link>        
+                <div className=" px-3 py-5  text-xl bg-[#F6F2E7]">
+                  Валюты
+                </div>
+                <Link
+                to="/"
+                className=" px-4 py-2 text-base"
+                >
+                  UAH
+                </Link>
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  USD
+                </Link>    
+                <div className=" px-3 py-5  text-xl bg-[#F6F2E7]">
+                  Язык
+                </div>
+                <Link
+                to="/"
+                className=" px-4 py-2 text-base"
+                >
+                  Ru
+                </Link>
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  Uk
+                </Link>    
+                <Link
+                  to="/shop"
+                  className=" px-4 py-2 text-base"
+                >
+                  En
+                </Link>    
               </div>
             </div>
           </div>

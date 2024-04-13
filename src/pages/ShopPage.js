@@ -142,7 +142,7 @@ const SortingSelect = () => {
     <>
     <div className="relative flex">
       <div className='mr-5 flex flex-wrap items-center'>Сортировка:</div>
-      <select className="text-white w-40 transition duration-500 ease-in-out hover:text-[#6D5B4F] block appearance-none bg-[#6D5B4F] border border-[#6D5B4F]  hover:bg-orange-50 px-4 py-2 pr-8 rounded leading-none focus:outline-none focus:shadow-outline">
+      <select className="text-white w-40 transition duration-500 ease-in-out hover:text-[#6D5B4F] block appearance-none bg-[#6D5B4F] border border-[#6D5B4F]  hover:bg-[#F6F2E7] px-4 py-2 pr-8 rounded leading-none focus:outline-none focus:shadow-outline">
         <option>Популярные</option>
         <option>Цена: по возрастанию</option>
         <option>Цена: по убыванию</option>
@@ -156,7 +156,7 @@ const SortingSelect = () => {
 
 const ShopPage = () => {
   return (
-    <div className="py-44 text-[#40312C]">
+    <div className="py-40 text-[#40312C]">
       <PageHeader/>
       <div className="container mx-auto p-4">
         <div className="flex flex-wrap -mx-4">

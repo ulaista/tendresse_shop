@@ -143,21 +143,19 @@
   width: 50px;
   border-radius: 50%;
   border: 0;
-  background-color: #fff;
-  font-size: 16px;
+  font-size: 60px;
   transition: 0.3s;
   z-index: 999;
   &:focus,
   &:hover {
-    background-color: #000;
     color: #fff;
     outline: 0;
   }
   &.prevArrow {
-    left: 20px;
+    left: 30px;
   }
   &.nextArrow {
-    right: 20px;
+    right: 30px;
   }
   @include tablet {
     display: none !important;
