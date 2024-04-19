@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import ShopCategories, { CategoryGrid } from '../components/homePageComponents/ShopCategories';
 import PageHeader from "../components/shopPageComponents/PageHeader";
 import { Transition } from '@headlessui/react';
 // import ExampleProducts from '../components/shopPageComponents/ProductList';
 import Product from '../components/shopPageComponents/Product';
+import instanceApi  from "../hooks/axiosConfig";
+import PriceSlider from "../components/shopPageComponents/PriceSlider";
+
+
 
 const DropdownFilter = ({ label, children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,82 +55,122 @@ const FilterSidebar = () => {
   // Эта функция будет обрабатывать изменения для каждого фильтра
   const handleFilterChange = (filter, value) => {
     setSelectedFilters(prev => ({ ...prev, [filter]: value }));
-};
-const [priceFilter, setPriceFilter] = useState({ min: 300, max: 1300 });
-const [colorFilter, setColorFilter] = useState([]);
-const [sizeFilter, setSizeFilter] = useState([]);
+  };
+  const [priceFilter, setPriceFilter] = useState({ min: 300, max: 1300 });
+  const [colorFilter, setColorFilter] = useState([]);
+  const [manfuckFilter, setManfuckFilter] = useState([]);
+  const [sizeFilter, setSizeFilter] = useState([]);
 
-const handlePriceChange = (value) => {
-  setPriceFilter(value);
-};
+  const handlePriceChange = (value) => {
+    setPriceFilter(value);
+  };
 
-const handleColorChange = (color) => {
-  setColorFilter(prevColors =>
-    prevColors.includes(color)
-      ? prevColors.filter(c => c !== color)
-      : [...prevColors, color]
-  );
-};
+  const handleColorChange = (color) => {
+    setColorFilter(prevColors =>
+      prevColors.includes(color)
+        ? prevColors.filter(c => c !== color)
+        : [...prevColors, color]
+    );
+  };
 
-const handleSizeChange = (size) => {
-  setSizeFilter(prevSizes =>
-    prevSizes.includes(size)
-      ? prevSizes.filter(s => s !== size)
-      : [...prevSizes, size]
-  );
-};
+  const handleManfuckChange = (manfuck) => {
+    setManfuckFilter(prevManfucks =>
+      prevManfucks.includes(manfuck)
+        ? prevManfucks.filter(m => m !== manfuck)
+        : [...prevManfucks, manfuck]
+    );
+  };
+
+  const handleSizeChange = (size) => {
+    setSizeFilter(prevSizes =>
+      prevSizes.includes(size)
+        ? prevSizes.filter(s => s !== size)
+        : [...prevSizes, size]
+    );
+  };
+
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    instanceApi.get('/all_categories/')
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => console.error("Ошибка загрузки категорий:", error));
+  }, []);
+
+  const [colors, setColors] = useState([]);
+  useEffect(() => {
+    instanceApi.get('/colors/')
+      .then((response) => {
+        setColors(response.data);
+      })
+      .catch((error) => console.error("Ошибка загрузки категорий:", error));
+  }, []);
+
+  const [sizies, setSizies] = useState([]);
+  useEffect(() => {
+    instanceApi.get('/sizes/')
+      .then((response) => {
+        setSizies(response.data);
+      })
+      .catch((error) => console.error("Ошибка загрузки категорий:", error));
+  }, []);
+
+  const [manfucks, setManfucks] = useState([]);
+  useEffect(() => {
+    instanceApi.get('/manufacturers/')
+      .then((response) => {
+        setManfucks(response.data);
+      })
+      .catch((error) => console.error("Ошибка загрузки категорий:", error));
+  }, []);
 
   return (
     <div className="border border-orange-950 p-4 rounded-lg">
       <ol className='mb-4'>
-        <li className='flex justify-between items-center w-full text-left mb-2'><a>Трусики</a></li>
-        <li className='flex justify-between items-center w-full text-left mb-2'><a>Бюстгалтеры</a></li>
-        <li className='flex justify-between items-center w-full text-left mb-2'><a>Новинки</a></li>
-        <li className='flex justify-between items-center w-full text-left mb-2'><a>Боди</a></li>
-        <li className='flex justify-between items-center w-full text-left mb-2'><a>Пижамы</a></li>
-        <li className='flex justify-between items-center w-full text-left mb-2'><a>Скидки</a></li>
+        {categories.map((category) => (
+          <li key={category.id} className='flex justify-between items-center w-full text-left mb-2'><a>{category.name}</a></li>
+        ))}
       </ol>      
       <h3 className="font-semibold text-lg mb-4">Фильтры</h3>
       <div>
       {filters.map(filter => (
   <DropdownFilter key={filter} label={filter}>
     {filter === 'Цена' && (
-      <div className="flex flex-col">
-        <input
-          type="range"
-          min="100"
-          max="2000"
-          value={priceFilter.min}
-          onChange={(e) => handlePriceChange({ ...priceFilter, min: e.target.value })}
-        />
-        <input
-          type="range"
-          min="100"
-          max="2000"
-          value={priceFilter.max}
-          onChange={(e) => handlePriceChange({ ...priceFilter, max: e.target.value })}
-        />
-        <span>От {priceFilter.min} до {priceFilter.max}</span>
-      </div>
+            <PriceSlider
+              min={100}
+              max={2000}
+              onPriceChange={handlePriceChange}
+            />
     )}
-    {filter === 'Цвет' && ['Черный', 'Молочный'].map(color => (
-      <label key={color} className="block">
+    {filter === 'Производитель' && manfucks.map(manfuck => (
+      <label key={manfuck.id} className="block">
         <input
           type="checkbox"
-          checked={colorFilter.includes(color)}
-          onChange={() => handleColorChange(color)}
+          checked={manfuckFilter.includes(manfuck.id)}
+          onChange={() => handleManfuckChange(manfuck.id)}
         />
-        {color}
+        {manfuck.name}
       </label>
     ))}
-    {filter === 'Размер' && ['XS', 'S', 'M', 'L', 'XL'].map(size => (
-      <label key={size} className="block">
+    {filter === 'Цвет' && colors.map(color => (
+      <label key={color.id} className="block">
         <input
           type="checkbox"
-          checked={sizeFilter.includes(size)}
-          onChange={() => handleSizeChange(size)}
+          checked={colorFilter.includes(color.id)}
+          onChange={() => handleColorChange(color.id)}
         />
-        {size}
+        {color.name}
+      </label>
+    ))}
+    {filter === 'Размер' && sizies.map(size => (
+      <label key={size.id} className="block">
+        <input
+          type="checkbox"
+          checked={sizeFilter.includes(size.id)}
+          onChange={() => handleSizeChange(size.id)}
+        />
+        {size.name}
       </label>
     ))}
   </DropdownFilter>
@@ -147,6 +191,7 @@ const SortingSelect = () => {
         <option>Цена: по возрастанию</option>
         <option>Цена: по убыванию</option>
         <option>Новинки</option>
+        <option>Скидки</option>
       </select>
     </div>
     </>

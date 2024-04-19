@@ -1,25 +1,22 @@
-import React from 'react';
-import foto_1 from '../../img/1.jpg';
-import foto_2 from '../../img/2.jpg';
-import foto_3 from '../../img/3.jpg';
-import foto_4 from '../../img/4.jpg';
+import React, { useEffect, useState } from "react";
+import instanceApi  from "../../hooks/axiosConfig";
+import { serverURL } from "../../hooks/axiosConfig";
 
-const categories = [
-  { name: 'Трусики', imageUrl: foto_1 },
-  { name: 'Бюстгальтеры', imageUrl: foto_2 },
-  { name: 'Новинки', imageUrl: foto_3 },
-  { name: 'Боди', imageUrl: foto_4 },
-];
+
+
 
 const CategoryCard = ({ name, imageUrl }) => {
+  const imagesrc = `${serverURL}${imageUrl}`
   return (
     <div className="flex flex-col items-center">
       {/* Внешний div обеспечивает overflow-hidden для внутреннего содержимого */}
       <div className="overflow-hidden">
         {/* Изображение теперь увеличивается в пределах этого div, не изменяя свой исходный размер */}
-        <img src={imageUrl} alt={name} className="w-full h-auto object-cover transition-transform duration-300 ease-in-out hover:scale-110" />
+        <div className="image-container" style={{ height: "220px" }}>
+          <img src={imagesrc} alt={name} className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-110" />
+        </div>
       </div>
-      <p className="mt-2 text-sm font-medium">{name}</p>
+      <p className="mt-2 text-sm font-bold">{name}</p>
     </div>
   );
 };
@@ -28,10 +25,20 @@ const CategoryCard = ({ name, imageUrl }) => {
 
 
 export const CategoryGrid = () => {
+  const [categories, setCategories] = useState([]);
+  
+  useEffect(() => {
+    instanceApi.get('/all_categories/')
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => console.error("Ошибка загрузки категорий:", error));
+  }, []);
+
   return(
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {categories.map((category) => (
-            <CategoryCard key={category.name} name={category.name} imageUrl={category.imageUrl} />
+            <CategoryCard key={category.id} name={category.name} imageUrl={category.preview_photo} />
           ))}
     </div>
   );
@@ -39,7 +46,7 @@ export const CategoryGrid = () => {
 
 const ShopCategories = () => {
   return (
-    <div className="py-12">
+    <div className="pt-12 pb-3">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-semibold text-left mb-10">КАТЕГОРИИ МАГАЗИНА</h2>
         <CategoryGrid/>

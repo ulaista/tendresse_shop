@@ -14,15 +14,18 @@ const Header = () => {
   // Эффект для добавления стилей к body, чтобы страница сдвигалась вправо, когда меню открыто
   useEffect(() => {
     if (isPanelOpen) {
+      document.body.style.overflow = "hidden"; // Отключаем прокрутку для body
       document.body.style.transform = "translateX(250px)";
       document.body.style.transition = "transform 300ms ease-in-out";
     } else {
+      document.body.style.overflow = ""; // Включаем прокрутку обратно
       document.body.style.transform = "";
       document.body.style.transition = "transform 300ms ease-in-out";
     }
 
     // Очистка эффекта
     return () => {
+      document.body.style.overflow = ""; // Убедитесь, что прокрутка включена при размонтировании
       document.body.style.transform = "";
       document.body.style.transition = "";
     };
@@ -91,12 +94,6 @@ const Header = () => {
               className="flex justify-start items-center ml-12 col-span-3 text-xs xl:text-sm"
             >
                {/* Ссылки меню для десктоп версии */}
-               <Link
-                to="/"
-                className="hidden lg:block  px-3 py-2 rounded-md"
-              >
-                Главная
-              </Link>
               <Link
                 to="/shop"
                 className="hidden lg:block  px-3 py-2 rounded-md"

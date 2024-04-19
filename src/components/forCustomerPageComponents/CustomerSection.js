@@ -1,6 +1,8 @@
 import React from "react";
-import ArticleCard from "../homePageComponents/BlogCards";
+import ArticleCard from "../forCustomerPageComponents/ArticleCard";
 import foto_1 from '../../img/2.jpg';
+import foto_2 from '../../img/3.jpg';
+import foto_3 from '../../img/4.jpg';
 
 
 const CustomerSection = () => {
@@ -18,7 +20,7 @@ const CustomerSection = () => {
         //   date: "30.01.2020",
           title: "Доставка и оплата",
         //   description: "Не пора ли отдать должное внимание...",
-          imageUrl: foto_1,
+          imageUrl: foto_2,
           src: '/delivery'
         },
         {
@@ -26,7 +28,7 @@ const CustomerSection = () => {
         //   date: "30.01.2020",
           title: "Публичная оферта",
         //   description: "Не пора ли отдать должное внимание...",
-          imageUrl: foto_1,
+          imageUrl: foto_3,
           src: '/publicoffer'
         },
       ];

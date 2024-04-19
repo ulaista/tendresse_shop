@@ -23,12 +23,18 @@ import {
   Routes,
   BrowserRouter,
 } from "react-router-dom";
+import { ProductsProvider } from "./ProductsContext";
+import { CartProvider } from "./CartContext";
+import { BlogsProvider } from "./BlogContext";
 function App() {
   return (
     <div className="App bg-[#F6F2E7]">
       <BrowserRouter>
         <Header />
         <ScrollTop />
+        <ProductsProvider>
+        <BlogsProvider>
+        <CartProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUsPage />} />
@@ -41,6 +47,9 @@ function App() {
           <Route path="/forcustomer" element={<CustomerPage />} />
           <Route path="/publicoffer" element={<OfferPage />} />
         </Routes>
+        </CartProvider>
+        </BlogsProvider>
+        </ProductsProvider>
         <Footer />
       </BrowserRouter>
     </div>
