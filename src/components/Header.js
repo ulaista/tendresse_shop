@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { SearchIcon } from "@heroicons/react/outline";
+import instanceApi from "../hooks/axiosConfig";
+import { useNavigate } from 'react-router-dom';
+
 
 // Предполагаем, что эти иконки 
 const Header = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const navigate = useNavigate(); 
   const [dropdownsOpen, setDropdownsOpen] = useState({
     forcustomer: false,
     novelties: false,
@@ -37,6 +41,71 @@ const Header = () => {
 
   const handleMouseLeave = (menu) => {
     setDropdownsOpen({ ...dropdownsOpen, [menu]: false });
+  };
+  const Search = () => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  
+    const handleSearchInputChange = (event) => {
+      const query = event.target.value;
+      setSearchQuery(query);
+      if (query.length > 0) {
+        instanceApi
+          .get(`/search/?q=${encodeURIComponent(query)}`)
+          .then((response) => {
+            setSearchResults(response.data);
+            setIsDropdownVisible(true);
+          })
+          .catch((error) => {
+            console.error("Ошибка при выполнении поиска:", error);
+            setIsDropdownVisible(false);
+          });
+      } else {
+        setIsDropdownVisible(false);
+      }
+    };
+  
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter' && searchQuery) {
+        event.preventDefault();
+        // Assume navigate function is imported from react-router-dom
+        navigate(`/search?query=${encodeURIComponent(searchQuery)}`); 
+      }
+    };
+  
+    const handleDropdownItemClick = (item) => {
+      setSearchQuery(item.name); // Assuming 'name' is the field you're using as label
+      setIsDropdownVisible(false);
+      navigate(`/product/${item.title_en}`); // Adjust route as necessary
+    };
+  
+    return (
+      <div className="relative">
+        <SearchIcon className="h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        <input
+          type="search"
+          className="w-36 pl-2 pr-4 py-2 border-b border-gray-300 bg-white"
+          placeholder="Поиск"
+          onChange={handleSearchInputChange}
+          onKeyDown={handleKeyPress}
+          value={searchQuery}
+        />
+        {isDropdownVisible && (
+          <div className="absolute z-10 w-full bg-white shadow-md max-h-60 overflow-auto">
+            {searchResults.map((item, index) => (
+              <div
+                key={index}
+                className="p-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleDropdownItemClick(item)}
+              >
+                {item.name} {/* Change this to your specific field if needed */}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -155,15 +224,9 @@ const Header = () => {
             </div>
             {/* Правая часть для элементов управления пользователя */}
              <div className="flex justify-end items-center space-x-4 mr-8 col-span-2">
-                <div className="relative">
-                    <SearchIcon className="hidden lg:block h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2" />
-                    <input
-                      className="hidden lg:block w-36 pl-3 pr-4 py-2 border-b border-gray-800 backdrop-opacity-10 backdrop-invert bg-white/50"
-                      placeholder="Поиск"
-                    />
-                </div>
+              <Search />
               {/* Иконки сердца и корзины */}
-              <svg
+              {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -190,22 +253,24 @@ const Header = () => {
                   stroke-linejoin="round"
                   d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
                 />
-              </svg>
+              </svg> */}
               <SearchIcon className="block lg:hidden h-5 w-5" />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                />
-              </svg>
+              <Link to={'/cart'}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                  />
+                </svg>
+              </Link>
             </div>
           </div>
            <div className="hidden md:flex justify-center space-x-4 py-2">

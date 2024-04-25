@@ -1,6 +1,6 @@
 import React from "react";
 
-function PageHeader() {
+function PageHeader({ product }) {
   return (
     <div className="-m-1 bg-white">
       <div className="container mx-auto px-4 flex justify-start">
@@ -16,11 +16,7 @@ function PageHeader() {
                     <a href="/" className="">Магазин</a>
                 </li>
                 <li><span className="mx-2">›</span></li>
-                <li>
-                  <a href="/" className="">Трусики</a>
-                </li>
-                <li><span className="mx-2">›</span></li>
-                <li className="">Пижама</li>
+                <li className="">{product.name}</li>
               </ol>
             </div>
           </div>

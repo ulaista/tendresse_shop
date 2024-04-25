@@ -13,10 +13,10 @@ function useCheckDateNotNull(created_at) {
   return isDatePresent;
 }
 
-const ArticleCard = ({ created_at, name, description, main_photo }) => {
+const ArticleCard = ({ created_at, title_en, name, description, main_photo }) => {
   const imageUrl = `${serverURL}${main_photo}`
   const isDatePresent = useCheckDateNotNull(created_at);
-  const src = '/blog1'
+  const src = `/blog/${title_en}/`
   return (
     <Link to={src}>
     <div className="flex flex-col border border-orange-950 overflow-hidden relative transition duration-500 ease-in-out transform hover:-translate-y-1">

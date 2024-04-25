@@ -7,6 +7,8 @@ import ProductCatalog from "../components/homePageComponents/ProductCatalog";
 import ArticleCard from "../components/homePageComponents/BlogCards";
 import foto_1 from '../img/2.jpg';
 import { useBlogs } from "../BlogContext";
+import { Link } from 'react-router-dom';
+
 
 function HomePage() {
     
@@ -30,9 +32,11 @@ function HomePage() {
       <ShopCategories/>
       <WeddingCollection/>
       <ProductCatalog/>
+      <Link to={'/shop'}>
       <div className='flex justify-center pb-8'>
           <a className='rounded-lg py-3 px-3 text-white hover:text-[#6D5B4F] bg-[#6D5B4F] hover:bg-[#F6F2E7] border border-[#6D5B4F]'>В КАТАЛОГ</a>
       </div>
+      </Link>
       <ArticleGrid/>
     </div>
   );

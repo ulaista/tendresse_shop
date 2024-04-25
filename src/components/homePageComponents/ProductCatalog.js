@@ -8,17 +8,19 @@ import { serverURL } from "../../hooks/axiosConfig";
 
 export const ProductCard = ({ product }) => {
     const imageUrl = `${serverURL}${product.main_photo}`
+    const src = `/product/${product.title_en}/`
     return (
+      <Link to={src}>
       <div className="group max-w-sm relative">
         <div className="relative z-10">
-          <div className="absolute top-0 left-0 flex space-x-2 p-2">
+          {/* <div className="absolute top-0 left-0 flex space-x-2 p-2">
             <button className="bg-[#F6F2E7] p-2 rounded-3xl">
               <img src={heartIcon} alt="Add to Wishlist" width="17" height="17" />
             </button>
             <button className="bg-[#F6F2E7] p-2 rounded-3xl">
               <img src={compareIcon} alt="Add to Compare" width="17" height="17" />
             </button>
-          </div>
+          </div> */}
           <div className="image-container" style={{ height: "300px" }}>
             <img className="w-full h-full object-cover" src={imageUrl} alt={product.name} />
           </div>
@@ -26,9 +28,10 @@ export const ProductCard = ({ product }) => {
         <div className="px-6 py-4">
           <div className="font-medium text-lg mb-2 flex justify-center">{product.name}</div>
           <div className="mb-2 flex justify-center">{product.details}</div>
-          <p className="text-gray-700 flex justify-center text-base">{product.price}</p>
+          <p className="text-gray-700 flex justify-center text-base">{product.price * 1} €</p>
         </div>
       </div>
+      </Link>
     );
   };
 
@@ -41,7 +44,7 @@ export const ProductCard = ({ product }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5">
           {products.map((product) => (
             <div key={product.id} className="mb-16"> {/* Add negative margin-bottom */}
-              <Link to='/product1'><ProductCard product={product} /></Link>
+              <ProductCard product={product} />
             </div>
           ))}
         </div>

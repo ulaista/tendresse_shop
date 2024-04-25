@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import instanceApi  from "../../hooks/axiosConfig";
 import { serverURL } from "../../hooks/axiosConfig";
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -38,7 +40,9 @@ export const CategoryGrid = () => {
   return(
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {categories.map((category) => (
-            <CategoryCard key={category.id} name={category.name} imageUrl={category.preview_photo} />
+             <Link to={`/shop/category/${category.name}/`}>
+              <CategoryCard key={category.id} name={category.name} imageUrl={category.preview_photo} />
+             </Link>
           ))}
     </div>
   );

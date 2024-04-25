@@ -26,6 +26,9 @@ import {
 import { ProductsProvider } from "./ProductsContext";
 import { CartProvider } from "./CartContext";
 import { BlogsProvider } from "./BlogContext";
+import CartPage from "./pages/CartPage";
+import CategoryPage from "./pages/CategoryPage";
+import SearchPage from "./pages/SearchPage";
 function App() {
   return (
     <div className="App bg-[#F6F2E7]">
@@ -38,10 +41,13 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/contacts" element={<ContactUsPage />} />
           <Route path="/shop" element={<ShopPage />} />
-          <Route path="/product1" element={<ProductPage />} />
-          <Route path="/blog1" element={<BlogCardPage />} />
+          <Route path="/product/:productName" element={<ProductPage />} />
+          <Route path="/blog/:blogName" element={<BlogCardPage />} />
+          <Route path="/shop/category/:categoryName" element={<CategoryPage />} />
           <Route path="/delivery" element={<DeliveryPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/forcustomer" element={<CustomerPage />} />

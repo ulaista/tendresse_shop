@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import ShopCategories, { CategoryGrid } from '../components/homePageComponents/ShopCategories';
 import PageHeader from "../components/shopPageComponents/PageHeader";
 import { Transition } from '@headlessui/react';
-// import ExampleProducts from '../components/shopPageComponents/ProductList';
-import Product from '../components/shopPageComponents/Product';
+import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import {ProductCard} from '../components/shopPageComponents/Product';
 import instanceApi  from "../hooks/axiosConfig";
-import PriceSlider from "../components/shopPageComponents/PriceSlider";
 
 
 
@@ -127,12 +127,12 @@ const FilterSidebar = () => {
 
   return (
     <div className="border border-orange-950 p-4 rounded-lg">
-      <ol className='mb-4'>
+      <ol className=''>
         {categories.map((category) => (
-          <li key={category.id} className='flex justify-between items-center w-full text-left mb-2'><a>{category.name}</a></li>
+          <li key={category.id} className='flex justify-between items-center w-full text-left mb-2'><Link to={`/shop/category/${category.name}/`}>{category.name}</Link></li>
         ))}
       </ol>      
-      <h3 className="font-semibold text-lg mb-4">Фильтры</h3>
+      {/* <h3 className="font-semibold text-lg mb-4">Фильтры</h3>
       <div>
       {filters.map(filter => (
   <DropdownFilter key={filter} label={filter}>
@@ -175,31 +175,64 @@ const FilterSidebar = () => {
     ))}
   </DropdownFilter>
 ))}
-      </div>
+      </div> */}
     </div>
   );
 };
 
-// Сортировка (пока без функциональности)
-const SortingSelect = () => {
+const SortingSelect = ({ onSortChange }) => {
   return (
-    <>
     <div className="relative flex">
       <div className='mr-5 flex flex-wrap items-center'>Сортировка:</div>
-      <select className="text-white w-40 transition duration-500 ease-in-out hover:text-[#6D5B4F] block appearance-none bg-[#6D5B4F] border border-[#6D5B4F]  hover:bg-[#F6F2E7] px-4 py-2 pr-8 rounded leading-none focus:outline-none focus:shadow-outline">
-        <option>Популярные</option>
-        <option>Цена: по возрастанию</option>
-        <option>Цена: по убыванию</option>
-        <option>Новинки</option>
-        <option>Скидки</option>
+      <select
+        className="text-white w-56 transition duration-500 ease-in-out hover:text-[#6D5B4F] block appearance-none bg-[#6D5B4F] border border-[#6D5B4F]  hover:bg-[#F6F2E7] px-2 py-2 pr-8 rounded leading-none focus:outline-none focus:shadow-outline"
+        onChange={(e) => onSortChange(e.target.value)}
+      >
+        <option value="none">Без сортировки</option>
+        <option value="popular">Популярные</option>
+        <option value="priceAsc">Цена: по возрастанию</option>
+        <option value="priceDesc">Цена: по убыванию</option>
+        <option value="new">Новинки</option>
+        <option value="sale">Скидки</option>
       </select>
     </div>
-    </>
   );
 };
+
 
 
 const ShopPage = () => {
+  const [products, setProducts] = useState([]);
+  const [sortOption, setSortOption] = useState('popular');
+
+  useEffect(() => {
+    instanceApi.get('/products/')
+      .then(response => {
+        setProducts(response.data);
+      })
+      .catch(error => console.error("Ошибка загрузки продуктов:", error));
+  }, []);
+
+  const handleSortChange = (option) => {
+    setSortOption(option);
+  };
+
+  const sortedProducts = useMemo(() => {
+    switch (sortOption) {
+      case 'priceAsc':
+        return [...products].sort((a, b) => a.price - b.price);
+      case 'priceDesc':
+        return [...products].sort((a, b) => b.price - a.price);
+      case 'new':
+        return [...products].filter(product => product.new);
+      case 'sale':
+        return [...products].filter(product => product.sale > 0);
+      case 'popular':
+      default:
+        return products;
+    }
+  }, [products, sortOption]);
+
   return (
     <div className="py-40 text-[#40312C]">
       <PageHeader/>
@@ -214,10 +247,19 @@ const ShopPage = () => {
           <div className="w-full md:w-3/4 px-4">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">МАГАЗИН</h2>
-              <SortingSelect />
+              <SortingSelect onSortChange={handleSortChange} />
             </div>
             <div className='py-5'><CategoryGrid /></div>
-            <Product/>
+            <div className="container mx-auto px-4 pt-16">
+              <h1 className="text-3xl font-bold mb-8">КАТАЛОГ</h1>
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5">
+                {sortedProducts.map((product, index) => (
+                  <div key={index} className="mb-16"> 
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

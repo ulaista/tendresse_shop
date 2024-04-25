@@ -1,34 +1,35 @@
 import React from 'react';
-import heartIcon from '../../img/heartsolid.svg'; // Path to the heart icon
-import compareIcon from '../../img/comparesolid.svg'; // Path to the compare icon
-import foto1 from '../../img/3.jpg';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../../ProductsContext';
 import { serverURL } from "../../hooks/axiosConfig";
 
 
-const ProductCard = ({ product }) => {
+export const ProductCard = ({ product }) => {
     const [selectedSize, setSelectedSize] = React.useState(product.sizes[0]); 
     const [selectedColor, setSelectedColor] = React.useState(product.colors[0]); 
-    const imageUrl = `${serverURL}${product.main_photo}`
-    const src = '/product1'
+    const imageUrl1 = `${serverURL}${product.main_photo}`
+    const imageUrl2 = `${serverURL}${product.secondary_photo}`
+    const src = `/product/${product.title_en}/`
   
     return (
       <div className="group hover:shadow-md max-w-sm relative">
         <div className="relative z-10">
-          <div className="absolute top-0 left-0 flex space-x-2 p-2">
-            <button className="bg-[#F6F2E7] p-2 rounded-3xl">
-              <img src={heartIcon} alt="Add to Wishlist" width="17" height="17" />
-            </button>
-            <button className="bg-[#F6F2E7] p-2 rounded-3xl">
-              <img src={compareIcon} alt="Add to Compare" width="17" height="17" />
-            </button>
-          </div>
             <Link
               to={src}
             >
-              <div className="image-container" style={{ height: "300px" }}>
-                <img className="w-full h-full object-cover" src={imageUrl} alt={product.name} />
+              <div className="relative h-72"> {/* Adjust height as needed */}
+              {/* Primary Image */}
+                <img
+                  src={imageUrl1}
+                  alt={product.name}
+                  className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out group-hover:opacity-0"
+                />
+                {/* Secondary Image */}
+                <img
+                  src={imageUrl2}
+                  alt={product.name}
+                  className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100"
+                />
               </div>
             </Link>
         </div>
@@ -38,7 +39,7 @@ const ProductCard = ({ product }) => {
         <div className="px-6 py-4">
           <div className="font-medium text-sm mb-2 flex justify-center">{product.name}</div>
           <div className="mb-2 text-xs flex justify-center">{product.details}</div>
-          <p className="text-gray-700 flex justify-center text-base">{product.price}€</p>
+          <p className="text-gray-700 flex justify-center text-base">{product.price * 1} €</p>
         </div>
         </Link>
         <div className="absolute inset-x-0 px-6 py-4 bg-[#F6F2E7] shadow-lg hidden group-hover:block z-50">
@@ -70,9 +71,11 @@ const ProductCard = ({ product }) => {
           ))}
         </div>   
         </div>
+        <Link to={src}>
           <button className="w-full border border-[#6D5B4F] bg-[#6D5B4F] text-white hover:text-[#6D5B4F] py-2 mt-4 rounded hover:bg-orange-50 transition duration-300 ease-in-out">
             Купить
           </button>
+        </Link>
         </div>
       </div>
     );
@@ -82,7 +85,7 @@ const ProductCard = ({ product }) => {
     const { products } = useProducts();
     return (
       <div className="container mx-auto px-4 pt-16">
-        <h1 className="text-3xl font-bold mb-8">ПОХОЖИЕ ТОВАРЫ</h1>
+        <h1 className="text-3xl font-bold mb-8">КАТАЛОГ</h1>
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5">
           {products.map((product, index) => (
             <div key={index} className="mb-16"> {/* Add negative margin-bottom */}

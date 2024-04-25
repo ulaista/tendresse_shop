@@ -1,5 +1,7 @@
 import React from 'react';
 import foto from '../../img/text-img-2.jpg';
+import { Link } from 'react-router-dom';
+
 
 const WeddingCollection = () => {
   return (
@@ -13,9 +15,11 @@ const WeddingCollection = () => {
       <div className="pt-24 flex-1 h-1/2 md:h-full flex flex-col justify-center items-start p-8">
         <span className="text-xs sm:text-sm uppercase tracking-widest text-gray-500 mb-2">Будь особенной</span>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-medium mb-4">СВАДЕБНАЯ<br/> КОЛЛЕКЦИЯ</h2>
+        <Link to={'/shop'}>
         <button className="bg-[#6D5B4F] hover:bg-orange-50 border border-[#6D5B4F] hover:text-[#6D5B4F] text-white sm:px-6 rounded-lg py-3 px-3 hover:bg-brown-600 transition-colors">
           В каталог
         </button>
+        </Link>
       </div>
     </div>
   );

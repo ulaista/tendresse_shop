@@ -1,5 +1,6 @@
 import React from 'react';
 import foto from "../../img/text-img-1.jpg"; // Убедитесь, что путь до изображения корректный
+import { Link } from 'react-router-dom';
 
 const CatalogHomePage = () => {
   return (
@@ -24,9 +25,11 @@ const CatalogHomePage = () => {
           удовлетворит даже самых взыскательных клиентов и позволит вам чувствовать себя уверенно и
           прекрасно в любой ситуации.
         </p>
+        <Link to={'/shop'}>
         <button className="mt-4 text-white px-2 py-2">
           <a className='rounded-lg py-3 px-3 text-white hover:text-[#6D5B4F] bg-[#6D5B4F] hover:bg-[#F6F2E7] border border-[#6D5B4F]'>В КАТАЛОГ</a>
         </button>
+        </Link>
       </div>
     </div>
     
