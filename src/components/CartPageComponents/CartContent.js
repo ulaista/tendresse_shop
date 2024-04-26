@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useCart } from "../../CartContext";
 import { serverURL } from "../../hooks/axiosConfig";
 
-
 const CartContent = () => {
   const { cart, dispatch } = useCart();
 
@@ -37,14 +36,14 @@ const CartContent = () => {
     );
   }
   return (
-    <div className="container mx-auto p-4 py-10">
+    <div className="container mx-auto px-4 py-10">
       <div className="flex flex-col">
         <table className="table-auto w-full text-left">
           <thead>
             <tr>
               <th className="px-4 py-2">Товар</th>
-              <th className="px-4 py-2">Количество</th>
-              <th className="px-4 py-2">Стоимость</th>
+              <th className="hidden sm:inline-block	px-4 py-2">Количество</th>
+              <th className="hidden sm:inline-block px-4 py-2">Стоимость</th>
               <th className="px-4 py-2">Действия</th>
             </tr>
           </thead>
@@ -57,12 +56,12 @@ const CartContent = () => {
                     <span>{item.name}</span>
                   </div>
                 </td>
-                <td className="px-4 py-2">
+                <td className="hidden sm:inline-block	px-4 py-2">
                   <button className="border hover:text-white border-[#6D5B4F] rounded-lg hover:bg-[#6D5B4F] px-4 py-2 mr-2" onClick={decreaseQuantity(item)}>-</button>
                   {item.quantity}
                   <button className="border hover:text-white border-[#6D5B4F] rounded-lg hover:bg-[#6D5B4F] px-4 py-2 ml-2" onClick={() => increaseQuantity(item)}>+</button>
                 </td>
-                <td className="px-4 py-2">{item.price * item.quantity} ₽</td>
+                <td className="hidden sm:inline-block	px-4 py-2">{item.price * item.quantity} ₽</td>
                 <td className="px-4 py-2">
                   <button className="border hover:text-white border-[#6D5B4F] hover:bg-[#6D5B4F] px-4 py-2 rounded" onClick={() => removeFromCart(item.id)}>Удалить</button>
                 </td>
@@ -72,7 +71,7 @@ const CartContent = () => {
         </table>
         <div className="flex justify-between mt-4">
           <button className="bg-[#bca08c] hover:bg-[#c29575] text-white px-4 py-2 rounded" onClick={clearCart}>Очистить корзину</button>
-          <Link to="/" className="bg-[#6D5B4F] hover:bg-[#715949] text-white px-4 py-2 rounded">Оформить заказ</Link>
+          <Link to="/checkout" className="bg-[#6D5B4F] hover:bg-[#715949] text-white px-4 py-2 rounded">Оформить заказ</Link>
         </div>
       </div>
     </div>

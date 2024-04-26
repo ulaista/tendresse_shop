@@ -29,6 +29,7 @@ import { BlogsProvider } from "./BlogContext";
 import CartPage from "./pages/CartPage";
 import CategoryPage from "./pages/CategoryPage";
 import SearchPage from "./pages/SearchPage";
+import CheckoutPage from "./pages/CheckoutPage";
 function App() {
   return (
     <div className="App bg-[#F6F2E7]">
@@ -52,6 +53,7 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/forcustomer" element={<CustomerPage />} />
           <Route path="/publicoffer" element={<OfferPage />} />
+          <Route path="/checkout" element={<CheckoutPage/>} />
         </Routes>
         </CartProvider>
         </BlogsProvider>

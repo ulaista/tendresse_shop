@@ -42,10 +42,16 @@ const Header = () => {
   const handleMouseLeave = (menu) => {
     setDropdownsOpen({ ...dropdownsOpen, [menu]: false });
   };
+
   const Search = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    const [isSearchActive, setIsSearchActive] = useState(false); // Управление видимостью поля ввода
+  
+    const handleSearchIconClick = () => {
+      setIsSearchActive(true); // Активация поля ввода
+    };
   
     const handleSearchInputChange = (event) => {
       const query = event.target.value;
@@ -69,37 +75,47 @@ const Header = () => {
     const handleKeyPress = (event) => {
       if (event.key === 'Enter' && searchQuery) {
         event.preventDefault();
-        // Assume navigate function is imported from react-router-dom
-        navigate(`/search?query=${encodeURIComponent(searchQuery)}`); 
+        navigate(`/search?query=${encodeURIComponent(searchQuery)}`); // Переход на страницу результатов поиска
+        setIsSearchActive(false); // Скрытие поля ввода после поиска
       }
     };
   
-    const handleDropdownItemClick = (item) => {
-      setSearchQuery(item.name); // Assuming 'name' is the field you're using as label
+    const handleBlur = () => {
+      setIsSearchActive(false); // Скрытие поля ввода и результатов поиска при потере фокуса
       setIsDropdownVisible(false);
-      navigate(`/product/${item.title_en}`); // Adjust route as necessary
     };
   
     return (
       <div className="relative">
-        <SearchIcon className="h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-        <input
-          type="search"
-          className="w-36 pl-2 pr-4 py-2 border-b border-gray-300 bg-white"
-          placeholder="Поиск"
-          onChange={handleSearchInputChange}
-          onKeyDown={handleKeyPress}
-          value={searchQuery}
-        />
+        {!isSearchActive && (
+          <SearchIcon
+            className="h-5 w-5 cursor-pointer"
+            onClick={handleSearchIconClick}
+          />
+        )}
+        {isSearchActive && (
+          <input
+            type="search"
+            className="w-36 pl-2 pr-4 py-2 border-b border-gray-300 bg-white"
+            placeholder="Поиск"
+            onChange={handleSearchInputChange}
+            onKeyDown={handleKeyPress}
+            onBlur={handleBlur} // Обработка потери фокуса
+            autoFocus
+          />
+        )}
         {isDropdownVisible && (
           <div className="absolute z-10 w-full bg-white shadow-md max-h-60 overflow-auto">
             {searchResults.map((item, index) => (
               <div
                 key={index}
                 className="p-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => handleDropdownItemClick(item)}
+                onClick={() => {
+                  navigate(`/product/${item.title_en}`);
+                  setIsSearchActive(false); // Скрытие поля ввода при выборе элемента из результатов
+                }}
               >
-                {item.name} {/* Change this to your specific field if needed */}
+                {item.name}
               </div>
             ))}
           </div>
@@ -107,6 +123,8 @@ const Header = () => {
       </div>
     );
   };
+  
+  
 
   return (
     <div>
@@ -254,7 +272,6 @@ const Header = () => {
                   d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
                 />
               </svg> */}
-              <SearchIcon className="block lg:hidden h-5 w-5" />
               <Link to={'/cart'}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -361,98 +378,24 @@ const Header = () => {
                   Магазин
                 </Link>
                 <Link
-                to="/"
+                to="/forcustomer"
                 className=" px-4 py-2 text-base"
                 >
                   Покупателям
                 </Link>
                 <Link
-                  to="/shop"
+                  to="/blog"
                   className=" px-4 py-2 text-base"
                 >
                   Блог
                 </Link>
                 <Link
-                  to="/shop"
+                  to="/contacts"
                   className=" px-4 py-2 text-base"
                 >
                   Контакты
                 </Link>            
-                <div className=" px-3 py-5  text-xl bg-[#F6F2E7]">
-                  Каталог
-                </div>
-                <Link
-                to="/"
-                className=" px-4 py-2 text-base"
-                >
-                  Трусики
-                </Link>
-                <Link
-                  to="/shop"
-                  className=" px-4 py-2 text-base"
-                >
-                  Бюсгалтеры
-                </Link>
-                <Link
-                to="/"
-                className=" px-4 py-2 text-base"
-                >
-                  Новинки
-                </Link>
-                <Link
-                  to="/shop"
-                  className=" px-4 py-2 text-base"
-                >
-                  Боди
-                </Link>
-                <Link
-                  to="/shop"
-                  className=" px-4 py-2 text-base"
-                >
-                  Пижами
-                </Link>            
-                <Link
-                  to="/shop"
-                  className=" px-4 py-2 text-base"
-                >
-                  Скидки
-                </Link>        
-                <div className=" px-3 py-5  text-xl bg-[#F6F2E7]">
-                  Валюты
-                </div>
-                <Link
-                to="/"
-                className=" px-4 py-2 text-base"
-                >
-                  UAH
-                </Link>
-                <Link
-                  to="/shop"
-                  className=" px-4 py-2 text-base"
-                >
-                  USD
-                </Link>    
-                <div className=" px-3 py-5  text-xl bg-[#F6F2E7]">
-                  Язык
-                </div>
-                <Link
-                to="/"
-                className=" px-4 py-2 text-base"
-                >
-                  Ru
-                </Link>
-                <Link
-                  to="/shop"
-                  className=" px-4 py-2 text-base"
-                >
-                  Uk
-                </Link>    
-                <Link
-                  to="/shop"
-                  className=" px-4 py-2 text-base"
-                >
-                  En
-                </Link>    
+                
               </div>
             </div>
           </div>
