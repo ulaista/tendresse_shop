@@ -48,14 +48,14 @@ function CheckoutPage() {
       products,
     };
 
-    instanceApi.post('/checkout/', submissionData)
+    instanceApi.post('/create_order/', submissionData)
       .then(response => {
         console.log("Order submitted successfully", response.data);
         setIsSubmitted(true);
         dispatch({ type: "CLEAR_CART" });
         setTimeout(() => {
           navigate('/');
-        }, 3000);
+        }, 1500);
       })
       .catch(error => {
         console.error("There was an error submitting the order", error);
@@ -68,7 +68,7 @@ function CheckoutPage() {
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-check-circle-fill mb-5 text-green-500 w-12 h-12" viewBox="0 0 16 16">
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.525 7.465a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.99-4.99a.75.75 0 0 0-.01-1.05z"/>
         </svg>
-        Successfully sent
+        Заказ успешно отправлено!
       </div>
     );
   }
@@ -77,7 +77,7 @@ function CheckoutPage() {
     <div className='py-36'>
       <PageHeader />
       <div className="container mx-auto p-2">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
         <div className='mt-28'>
             <table className="table-auto w-full text-left">
                 <thead>
@@ -107,7 +107,7 @@ function CheckoutPage() {
         <div>
           <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-28">
             <div className="text-3xl font-semibold mb-2">Оформить заказ</div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-1">
               <input
                 className="w-full bg-[#fefefe] text-[#6D5B4F] placeholder:text-[#6D5B4F] border border-[#6D5B4F] rounded py-3 px-4"
                 type="text"

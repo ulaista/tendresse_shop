@@ -69,9 +69,9 @@ const CartContent = () => {
             ))}
           </tbody>
         </table>
-        <div className="flex justify-between mt-4">
-          <button className="bg-[#bca08c] hover:bg-[#c29575] text-white px-4 py-2 rounded" onClick={clearCart}>Очистить корзину</button>
-          <Link to="/checkout" className="bg-[#6D5B4F] hover:bg-[#715949] text-white px-4 py-2 rounded">Оформить заказ</Link>
+        <div className="grid grid-rows-2 sm:flex justify-between mt-4">
+          <button className="bg-[#bca08c] hover:bg-[#c29575] w-full sm:w-max h-max text-white px-4 py-2 rounded" onClick={clearCart}>Очистить корзину</button>
+          <Link to="/checkout" className="bg-[#6D5B4F] hover:bg-[#715949] w-full sm:w-max h-max text-white px-4 py-2 rounded">Оформить заказ</Link>
         </div>
       </div>
     </div>

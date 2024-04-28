@@ -96,11 +96,11 @@ const Header = () => {
         {isSearchActive && (
           <input
             type="search"
-            className="w-36 pl-2 pr-4 py-2 border-b border-gray-300 bg-white"
+            className="w-36 pl-2 pr-4 py-2 border-b border-gray-300 bg-white outline-none"
             placeholder="Поиск"
             onChange={handleSearchInputChange}
             onKeyDown={handleKeyPress}
-            onBlur={handleBlur} // Обработка потери фокуса
+            onBlur={handleBlur} 
             autoFocus
           />
         )}
@@ -112,7 +112,7 @@ const Header = () => {
                 className="p-2 hover:bg-gray-100 cursor-pointer"
                 onClick={() => {
                   navigate(`/product/${item.title_en}`);
-                  setIsSearchActive(false); // Скрытие поля ввода при выборе элемента из результатов
+                  setIsSearchActive(false);
                 }}
               >
                 {item.name}

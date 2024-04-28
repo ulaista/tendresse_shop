@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import instanceApi from '../../hooks/axiosConfig';
+import { useNavigate } from 'react-router-dom'; 
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    fullname: "",
     phone: "",
     email: "",
     message: "",
   });
-
+  const [message, setMessage] = useState(''); 
+  const navigate = useNavigate(); 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -16,15 +19,53 @@ const ContactPage = () => {
     }));
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(formData);
+  
+  //   instanceApi.post('/submit_contact_form/', formData)
+  //   .then(response => response.json()) // Преобразование ответа сервера в JSON
+  //   .then(data => {
+  //     if (data.success) {
+  //       // Обработка успешной отправки формы
+  //       console.log('Форма успешно отправлена:', data.message);
+  //       // Очистка формы или перенаправление пользователя, если это необходимо
+  //     } else {
+  //       // Обработка ошибок, полученных от сервера
+  //       console.log('Ошибка отправки формы:', data.errors);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     // Обработка ошибок сети или запроса
+  //     console.error('Ошибка при отправке формы:', error);
+  //   });
+  // };  
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle the form submission logic
     console.log(formData);
+
+    instanceApi.post('/submit_contact_form/', formData)
+    .then(response => {
+      const data = response.data;
+      if (data.success) {
+        setMessage('Сообщение успешно отправлена.');
+        setTimeout(() => {
+          navigate('/'); // Перенаправляем на главную страницу через 2 секунды
+        }, 2000);
+      } else {
+        setMessage('Ошибка отправки формы: ' + data.errors.join('; '));
+      }
+    })
+    .catch((error) => {
+      console.error('Ошибка при отправке формы:', error);
+      setMessage('Ошибка при отправке формы: ' + error.message);
+    });
   };
+  
   return (
     <div className="container mx-auto p-4 text-[#40312C]">
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <div>
+        <div className="md:flex justify-center">
           <div className="">
             <div className="mb-2 mt-2">
               <div className="text-3xl pt-2 pb-12 font-semibold mb-2">
@@ -109,24 +150,24 @@ const ContactPage = () => {
         <div>
           <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-28">
             <div className="text-3xl font-semibold mb-2">Обратная связь</div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-1">
               <input
-                className="w-full bg-[#fefefe] text-[#6D5B4F] placeholder:text-[#6D5B4F] border border-[#6D5B4F] rounded py-3 px-4"
+                className="w-full bg-[#fefefe] text-[#6D5B4F] placeholder:text-[#6D5B4F] border border-[#6D5B4F] rounded py-3 px-4 outline-amber-900"
                 type="text"
                 placeholder="Имя *"
-                name="name"
+                name="fullname"
                 required
                 onChange={handleChange}
               />
               <input
-                className="w-full bg-[#fefefe] text-[#6D5B4F] placeholder:text-[#6D5B4F] border border-[#6D5B4F] rounded py-3 px-4"
+                className="w-full bg-[#fefefe] text-[#6D5B4F] placeholder:text-[#6D5B4F] border border-[#6D5B4F] rounded py-3 px-4 outline-amber-900"
                 type="tel"
                 placeholder="Телефон"
                 name="phone"
                 onChange={handleChange}
               />
               <input
-                className="w-full bg-[#fefefe] text-[#6D5B4F] placeholder:text-[#6D5B4F] border border-[#6D5B4F] rounded py-3 px-4"
+                className="w-full bg-[#fefefe] text-[#6D5B4F] placeholder:text-[#6D5B4F] border border-[#6D5B4F] rounded py-3 px-4 outline-amber-900"
                 type="email"
                 placeholder="Email *"
                 name="email"
@@ -143,13 +184,14 @@ const ContactPage = () => {
             ></textarea>
             <div className="flex justify-end">
               <button
-                className="transition duration-500 ease-in-out w-full md:w-1/4 bg-[#6D5B4F] border hover:bg-[#F6F2E7] hover:text-[#6D5B4F] hover:border-[#6D5B4F] flex justify-center text-white py-2 px-4 rounded"
+                className="transition duration-500 ease-in-out w-full md:w-max bg-[#6D5B4F] border hover:bg-[#F6F2E7] hover:text-[#6D5B4F] hover:border-[#6D5B4F] flex justify-center text-white py-2 px-4 rounded"
                 type="submit"
               >
                 ОТПРАВИТЬ
               </button>
             </div>
           </form>
+          {message && <div className="text-center mt-3">{message}</div>}
         </div>
       </div>
     </div>

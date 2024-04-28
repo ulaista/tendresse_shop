@@ -1,11 +1,7 @@
-import React from 'react';
-import heartIcon from '../../img/heartsolid.svg'; // Path to the heart icon
-import compareIcon from '../../img/comparesolid.svg'; // Path to the compare icon
-import foto1 from '../../img/3.jpg';
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
-import { useProducts } from '../../ProductsContext';
 import { serverURL } from "../../hooks/axiosConfig";
-
+import instanceApi  from "../../hooks/axiosConfig";
 
 
 export const ProductCard = ({ product }) => {
@@ -85,20 +81,37 @@ export const ProductCard = ({ product }) => {
   );
 };
 
-  const ProductList = () => {
-    const { products } = useProducts();
-    return (
+const ProductList = ({ categoryId }) => {
+  const [products, setProducts] = useState([]);
+  console.log(categoryId);
+  useEffect(() => {
+    if (categoryId) {
+        instanceApi.get(`/categories_by_id/${categoryId}/`)
+            .then((response) => {
+                const categoryIds = response.data.map(category => category.id);
+                return Promise.all(categoryIds.map(id =>
+                    instanceApi.get(`/product_by_id/${id}/`).then(res => res.data)
+                ));
+            })
+            .then((productResponses) => {
+                setProducts(productResponses); 
+            })
+            .catch((error) => {
+                console.error("Ошибка при загрузке информации о продукте:", error);
+            });
+    }
+  }, [categoryId]);
+  return (
       <div className="container mx-auto px-4 pt-16">
-        <h1 className="text-3xl font-bold mb-8">ПОХОЖИЕ ТОВАРЫ</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {products.map((product, index) => (
-            <div key={index} className="mb-16"> {/* Add negative margin-bottom */}
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+          <h1 className="text-3xl font-bold mb-8">ПОХОЖИЕ ТОВАРЫ</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {products.map((product, index) => (
+                  <div key={index} className="mb-16">
+                      <ProductCard product={product} />
+                  </div>
+              ))}
+          </div>
       </div>
-    );
-  };
-  
+  );
+};
 export default ProductList;
